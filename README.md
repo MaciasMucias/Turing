@@ -22,3 +22,5 @@
 -Move head(char)                                   -> moves head to left or right
 
 -Perform operation(State diagram, Current state)   -> modifies current state and tape based on state diagram
+
+-Run(Tape, Head position, State list, Current state, State diagram) -> Simulate the actions based on tape data
