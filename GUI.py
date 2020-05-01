@@ -7,7 +7,7 @@ class TuringGUI(App):
         super().__init__()
 
     def build(self):
-        return Button(text="Hello")
+        pass
 
 
 TuringGUI().run()
