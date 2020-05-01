@@ -13,3 +13,11 @@ Klasa:
 -listę stanów	-> lista stringow
 
 -diagram przejsc	-> słownik słowników
+
+Metody:
+
+-sprawdź dane wejściowe (alfabet, taśma, lista stanów zgodne z diagramem)
+
+-ruch głowicy (zmień aktualną pozycję)
+
+-wykonaj operacje (odczytuje i zapisuje na tasmie)
