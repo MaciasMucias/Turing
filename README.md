@@ -1,23 +1,24 @@
-# Turing
 
-Klasa:
 
--alfabet		-> lista znakow
+# Turing(Alphabet, Tape, State list):
 
--taśmę		-> lista znakow z alfabetu
+-Alphabet = Alphabet      -> list of acceptable chars
 
--pozycja głowicy	-> wartosc uint
+-Tape = Tape              -> list of chars from Alphabet
 
--aktualny stan 	-> string
+-State list = State list  -> a list of states
 
--listę stanów	-> lista stringow
+-State diagram = {}       -> dictionary of dictionaries
 
--diagram przejsc	-> słownik słowników
+-Head position = 0        -> a uint value
 
-Metody:
+-Current state = 0        -> a uint value
 
--sprawdź dane wejściowe (alfabet, taśma, lista stanów zgodne z diagramem)
 
--ruch głowicy (zmień aktualną pozycję)
+# Methods:
 
--wykonaj operacje (odczytuje i zapisuje na tasmie)
+-Check input data(Alphabet, Tape)                  -> checks if Tape is consisting of only Alphabet chars
+
+-Move head(char)                                   -> moves head to left or right
+
+-Perform operation(State diagram, Current state)   -> modifies current state and tape based on state diagram
