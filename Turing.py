@@ -52,5 +52,19 @@ class TuringMachine:
             if self.head_position == len(self.tape):
                 self.tape.append(self.alphabet[0])
 
-    def perform_operation(self, instruction: list):
-        pass
+    def perform_operation(self):
+        state_val = self.state_list[self.current_state]
+        symbol_val = self.tape[self.head_position]
+
+        if state_val not in self.state_diagram:
+            return False  # end of program
+        if symbol_val not in self.state_diagram[state_val]:
+            return False  # end of program
+
+        instruction = self.state_diagram[state_val][symbol_val]
+        self.tape[self.head_position] = instruction[0]
+        self.current_state = self.state_list.index(instruction[1])
+
+        self.move_head(instruction[2])
+
+        return True
