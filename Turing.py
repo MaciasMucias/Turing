@@ -1,5 +1,5 @@
 class TuringMachine:
-    def __init__(self, alphabet, tape, state_list):
+    def __init__(self, alphabet: list, tape: list, state_list: list):
         self.alphabet = alphabet  # first symbol in alphabet is default empty symbol
         self.tape = tape
         self.state_list = state_list  # first state is the default starting state
@@ -62,9 +62,21 @@ class TuringMachine:
             return False  # end of program
 
         instruction = self.state_diagram[state_val][symbol_val]
+
         self.tape[self.head_position] = instruction[0]
         self.current_state = self.state_list.index(instruction[1])
-
         self.move_head(instruction[2])
 
         return True
+
+    def alphabet_add(self, symbol: chr):
+        self.alphabet.append(symbol)
+
+    def alphabet_remove(self, symbol: chr):
+        self.alphabet.remove(symbol)
+
+    def state_add(self, state: str):
+        self.state_list.append(state)
+
+    def state_remove(self, state: str):
+        self.state_list.remove(state)
