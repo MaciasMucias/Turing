@@ -10,15 +10,16 @@ class TuringGrid(Widget):
         # Implement a window allowing to change the alphabet
         pass
 
-
-class TuringGUI(App):
-    def __init__(self):
-        super().__init__()
+    def change_state_list(self):
+        # TODO
+        # Implement a window allowing to change the state_list
+        pass
 
     def change_state_diagram(self):
         # TODO
         # Implement a window allowing to change the state_diagram
         pass
+
 
 class TuringGUI(App):
     def build(self):
