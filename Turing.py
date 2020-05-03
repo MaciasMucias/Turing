@@ -70,13 +70,29 @@ class TuringMachine:
         return True
 
     def alphabet_add(self, symbol: chr):
+        if symbol in self.alphabet:
+            return False
+
         self.alphabet.append(symbol)
+        return True
 
     def alphabet_remove(self, symbol: chr):
+        if symbol not in self.alphabet:
+            return False
+
         self.alphabet.remove(symbol)
+        return True
 
     def state_add(self, state: str):
+        if state in self.state_list:
+            return False
+
         self.state_list.append(state)
+        return True
 
     def state_remove(self, state: str):
+        if state not in self.state_list:
+            return False
+
         self.state_list.remove(state)
+        return True
