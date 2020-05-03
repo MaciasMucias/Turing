@@ -1,9 +1,18 @@
-<TuringGrid>
+<TuringGrid>:
     GridLayout:
         cols: 1
-        size: root.width, root.height
+        size: root.width, root.height/4
         GridLayout:
-            cols: 2
+            cols: 3
 
-            Label:
-                text: "Test"
+            Button:
+                text: "Zmien alfabet"
+                on_press: root.change_alphabet()
+
+            Button:
+                text: "Zmien stany"
+                on_press: root.change_state_list()
+
+            Button:
+                text: "Zmien diagramy"
+                on_press: root.change_state_diagram()
