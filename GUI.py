@@ -15,8 +15,8 @@ class TuringLayout(FloatLayout):
         # Implement UI inside the popup allowing change the alphabet
         class AlphabetPopup(FloatLayout):
             pass
-        window = AlphabetPopup()
-        popup = Popup(title="Modyfikowanie alfabetu", content=window, size_hint=(None, None), size=(400, 400))
+
+        popup = Popup(title="Modyfikowanie alfabetu", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_list(self):
@@ -25,8 +25,7 @@ class TuringLayout(FloatLayout):
         class StatePopup(FloatLayout):
             pass
 
-        window = StatePopup()
-        popup = Popup(title="Modyfikowanie stanow", content=window, size_hint=(None, None), size=(400, 400))
+        popup = Popup(title="Modyfikowanie stanow", content=StatePopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_diagram(self):
@@ -35,8 +34,7 @@ class TuringLayout(FloatLayout):
         class DiagramPopup(FloatLayout):
             pass
 
-        window = DiagramPopup()
-        popup = Popup(title="Modyfikowanie diagramu", content=window, size_hint=(None, None), size=(400, 400))
+        popup = Popup(title="Modyfikowanie diagramu", content=DiagramPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
 
 
