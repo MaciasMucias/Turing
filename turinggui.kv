@@ -20,6 +20,8 @@
 
 
 <AlphabetPopup>:
+    new_chr: new_chr
+    removed_chr: removed_chr
     Label:
         text: "Placeholder"
         pos_hint: {"left":0, "y": 0}
@@ -28,11 +30,18 @@
         size_hint: 1/4, 1/10
         pos_hint: {"x": 0, "top": 0.95}
         text: "Add"
+        on_press: root.add_chr()
 
     TextInput:
         size_hint: 1/2, 1/10
         pos_hint: {"x": 0.25, "top": 0.95}
+        id: new_chr
         multiline: False
+
+    ListView:
+        id: removed_chr
+
+
 
 <StatePopup>:
     Label:

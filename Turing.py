@@ -1,5 +1,5 @@
 class TuringMachine:
-    def __init__(self, alphabet: list, tape: list, state_list: list, state_diagram: dict):
+    def __init__(self, alphabet=[], tape=[], state_list=[], state_diagram={}):
         self.alphabet = alphabet  # first symbol in alphabet is default empty symbol
         self.tape = tape
         self.state_list = state_list  # first state is the default starting state
@@ -101,6 +101,7 @@ class TuringMachine:
         return True
 
     def alphabet_add(self, symbol: chr):
+        print(symbol)
         if symbol in self.alphabet:
             return False
 

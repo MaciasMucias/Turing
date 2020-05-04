@@ -1,3 +1,5 @@
+from Turing import TuringMachine
+
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
@@ -5,8 +7,12 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
+from kivy.properties import ObjectProperty
 
-#Window.fullscreen = 'auto'
+
+# Window.fullscreen = 'auto'
+
+turing = TuringMachine()
 
 
 class TuringLayout(FloatLayout):
@@ -14,7 +20,15 @@ class TuringLayout(FloatLayout):
         # TODO
         # Implement UI inside the popup allowing change the alphabet
         class AlphabetPopup(FloatLayout):
-            pass
+            new_chr = ObjectProperty(None)
+            removed_chr = ObjectProperty(None)
+            chr_list = turing.alphabet
+
+            def add_chr(self):
+                turing.alphabet_add(self.new_chr.text)
+
+            def del_chr(self):
+                turing.alphabet_remove(self.removed_chr)
 
         popup = Popup(title="Modyfikowanie alfabetu", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
