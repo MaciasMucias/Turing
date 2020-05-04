@@ -6,7 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
 
-Window.fullscreen = 'auto'
+#Window.fullscreen = 'auto'
 
 
 class TuringLayout(FloatLayout):
