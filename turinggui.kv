@@ -18,11 +18,7 @@
         text: "Zmien diagramy"
         on_press: root.change_state_diagram()
 
-
 <AlphabetPopup>:
-    Label:
-        text: "Placeholder"
-        pos_hint: {"left":0, "y": 0}
 
     Button:
         size_hint: 1/4, 1/10
@@ -30,9 +26,14 @@
         text: "Add"
 
     TextInput:
-        size_hint: 1/2, 1/10
-        pos_hint: {"x": 0.25, "top": 0.95}
+        size_hint: 0.72, 1/10
+        pos_hint: {"x": 0.26, "top": 0.95}
         multiline: False
+
+    Button:
+        size_hint: 1/4, 1/10
+        pos_hint: {"x": 0, "top": 0.75}
+        text: "Del"
 
 <StatePopup>:
     Label:

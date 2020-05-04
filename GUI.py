@@ -16,7 +16,7 @@ class TuringLayout(FloatLayout):
         class AlphabetPopup(FloatLayout):
             pass
 
-        popup = Popup(title="Modyfikowanie alfabetu", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
+        popup = Popup(title="Modify Alphabet", title_align="center", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_list(self):
