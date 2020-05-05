@@ -25,6 +25,10 @@ class AlphabetDD(Factory.DropDown):
         self._filter.bind(text=self.apply_filter)
         self.apply_filter(None, '')
 
+    def update(self):
+        self._buttons = turing.alphabet
+        print(self._buttons)
+
     def apply_filter(self, wid, value):
         self.clear_widgets()
         self.add_widget(self._filter)
@@ -46,14 +50,14 @@ class TuringLayout(FloatLayout):
 
             def add_chr(self):
                 turing.alphabet_add(self.new_chr.text)
-                AlphabetList.update()
+                self.alphabet.update()
 
             def del_chr(self):
                 turing.alphabet_remove(self.removed_chr)
-                AlphabetList.update()
+                self.alphabet.update()
 
-            def open_DD(self):
-                self.alphabet.open(self)
+            def open_DD(self, root):
+                self.alphabet.open(root)
 
         popup = Popup(title="Modify Alphabet", title_align="center", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
