@@ -7,7 +7,7 @@ Builder.load_string('''
     size_hint_y: None
     height: '70dp'
     on_press: 
-        print: 'a'
+        print(self.text)
 
 <FilterDD>:
     auto_dismiss: False
@@ -46,4 +46,5 @@ Button:
     pos_hint: {"x":0.25, "top": 1}
     on_press:
         fdd.open(self)
+        print: "a"
 '''))
