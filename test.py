@@ -6,6 +6,8 @@ Builder.load_string('''
 <FDDButton@Button>:
     size_hint_y: None
     height: '70dp'
+    on_press: 
+        print: 'a'
 
 <FilterDD>:
     auto_dismiss: False
