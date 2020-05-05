@@ -29,6 +29,13 @@ class AlphabetDD(Factory.DropDown):
         self._buttons = turing.alphabet
         print(self._buttons)
 
+    def open(self, root):
+        super().open(root)
+        self.clear_widgets()
+        self.add_widget(self._filter)
+        for btn in self._buttons:
+            self.add_widget(Factory.FDDButton(text=btn))
+
     def apply_filter(self, wid, value):
         self.clear_widgets()
         self.add_widget(self._filter)
