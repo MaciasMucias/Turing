@@ -9,20 +9,29 @@ from kivy.uix.widget import Widget
 from kivy.uix.spinner import Spinner
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
+from kivy.factory import Factory
 
 # Window.fullscreen = 'auto'
 
 turing = TuringMachine()
 
 
-class AlphabetList(Spinner):
-    start = StringProperty(turing.alphabet[0] if len(turing.alphabet)>0 else "Brak wartosci")
-    val = ListProperty(turing.alphabet)
+class AlphabetDD(Factory.DropDown):
+    def __init__(self, **kwargs):
+        super(AlphabetDD, self).__init__(**kwargs)
+        self._buttons = turing.alphabet
+        self._filter = Factory.TextInput(size_hint_y=None)
+        self.add_widget(self._filter)
+        self._filter.bind(text=self.apply_filter)
+        self.apply_filter(None, '')
 
+    def apply_filter(self, wid, value):
+        self.clear_widgets()
+        self.add_widget(self._filter)
+        for btn in self._buttons:
+            if not value or value in btn:
+                self.add_widget(Factory.FDDButton(text=btn))
 
-    def update(self):
-        self.start = StringProperty(turing.alphabet[0] if len(turing.alphabet) > 0 else "Brak wartosci")
-        self.val = ListProperty(turing.alphabet)
 
 class TuringLayout(FloatLayout):
     def change_alphabet(self):
@@ -33,6 +42,8 @@ class TuringLayout(FloatLayout):
             removed_chr = ObjectProperty(None)
             chr_list = turing.alphabet
 
+            alphabet = AlphabetDD()
+
             def add_chr(self):
                 turing.alphabet_add(self.new_chr.text)
                 AlphabetList.update()
@@ -40,6 +51,9 @@ class TuringLayout(FloatLayout):
             def del_chr(self):
                 turing.alphabet_remove(self.removed_chr)
                 AlphabetList.update()
+
+            def open_DD(self):
+                self.alphabet.open(self)
 
         popup = Popup(title="Modify Alphabet", title_align="center", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
