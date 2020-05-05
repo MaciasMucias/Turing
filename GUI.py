@@ -6,14 +6,23 @@ from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
+from kivy.uix.spinner import Spinner
 from kivy.core.window import Window
-from kivy.properties import ObjectProperty
-
+from kivy.properties import ObjectProperty, ListProperty, StringProperty
 
 # Window.fullscreen = 'auto'
 
 turing = TuringMachine()
 
+
+class AlphabetList(Spinner):
+    start = StringProperty(turing.alphabet[0] if len(turing.alphabet)>0 else "Brak wartosci")
+    val = ListProperty(turing.alphabet)
+
+
+    def update(self):
+        self.start = StringProperty(turing.alphabet[0] if len(turing.alphabet) > 0 else "Brak wartosci")
+        self.val = ListProperty(turing.alphabet)
 
 class TuringLayout(FloatLayout):
     def change_alphabet(self):
@@ -26,12 +35,15 @@ class TuringLayout(FloatLayout):
 
             def add_chr(self):
                 turing.alphabet_add(self.new_chr.text)
+                AlphabetList.update()
 
             def del_chr(self):
                 turing.alphabet_remove(self.removed_chr)
+                AlphabetList.update()
 
         popup = Popup(title="Modify Alphabet", title_align="center", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
+
 
     def change_state_list(self):
         # TODO
