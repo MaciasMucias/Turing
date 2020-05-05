@@ -23,7 +23,6 @@ class AlphabetDD(Factory.DropDown):
         self._filter = Factory.TextInput(size_hint_y=None, height='40dp', multiline=False)
         self.add_widget(self._filter)
         self._filter.bind(text=self.apply_filter)
-        self.apply_filter(None, '')
 
     def update(self):
         self._buttons = turing.alphabet
@@ -50,14 +49,14 @@ class TuringLayout(FloatLayout):
         # Implement UI inside the popup allowing change the alphabet
         class AlphabetPopup(FloatLayout):
             new_chr = ObjectProperty(None)
-            removed_chr = ObjectProperty(None)
             chr_list = turing.alphabet
 
             alphabet = AlphabetDD()
 
             def add_chr(self):
-                turing.alphabet_add(self.new_chr.text)
-                self.alphabet.update()
+                if len(self.new_chr.text) == 1:
+                    turing.alphabet_add(self.new_chr.text)
+                    self.alphabet.update()
 
             def del_chr(self):
                 turing.alphabet_remove(self.removed_chr)
