@@ -20,7 +20,7 @@ class AlphabetDD(Factory.DropDown):
     def __init__(self, **kwargs):
         super(AlphabetDD, self).__init__(**kwargs)
         self._buttons = turing.alphabet
-        self._filter = Factory.TextInput(size_hint_y=None)
+        self._filter = Factory.TextInput(size_hint_y=None, height='40dp', multiline=False)
         self.add_widget(self._filter)
         self._filter.bind(text=self.apply_filter)
         self.apply_filter(None, '')
