@@ -12,6 +12,7 @@ Builder.load_string('''
 ''')
 
 
+
 class FilterDD(Factory.DropDown):
     def __init__(self, buttons, **kwargs):
         super(FilterDD, self).__init__(**kwargs)
@@ -31,15 +32,6 @@ class FilterDD(Factory.DropDown):
         for btn in self._buttons:
             if not value or value in btn:
                 self.add_widget(Factory.FDDButton(text=btn))
-
-    def apply_filter2(self, wid, value):
-        if not value:
-            return
-        for btn in self.container.children[:-1]:  # skip textinput
-            if value in btn.text:
-                self.scroll_to(btn)
-                break
-
 
 fdd = FilterDD(["one", "two", "three", "four", "five", "six",
                 "seven", "eight", "nine", "ten"])
