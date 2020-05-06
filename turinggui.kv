@@ -6,9 +6,6 @@
     height: '40dp'
     on_press: print(self.text)
 
-<AlphabetDD>:
-    auto_dismiss: False
-
 <TuringLayout>:
     Button:
         pos_hint: {"x": 0, "bottom": 0}
@@ -47,7 +44,7 @@
     Button:
         size_hint: 0.72, 1/10
         pos_hint: {"x": 0.26, "top": 0.75}
-        on_press:
+        on_release:
             root.open_DD(self)
 
 

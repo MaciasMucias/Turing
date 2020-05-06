@@ -53,6 +53,8 @@ class TuringLayout(FloatLayout):
 
             alphabet = AlphabetDD()
 
+            state = False
+
             def add_chr(self):
 
                 if len(self.new_chr.text) == 1:
@@ -68,7 +70,8 @@ class TuringLayout(FloatLayout):
             def open_DD(self, root):
                 self.alphabet.open(root)
 
-        popup = Popup(title="Modify Alphabet", title_align="center", auto_dismiss=False, content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
+
+        popup = Popup(title="Modify Alphabet", title_align="center", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_list(self):
