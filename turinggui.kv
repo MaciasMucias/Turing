@@ -4,9 +4,10 @@
 <FDDButton@Button>:
     size_hint_y: None
     height: '40dp'
-    on_press:
-        print(self.text)
+    on_press: print(self.text)
 
+<AlphabetDD>:
+    auto_dismiss: False
 
 <TuringLayout>:
     Button:
@@ -48,7 +49,6 @@
         pos_hint: {"x": 0.26, "top": 0.75}
         on_press:
             root.open_DD(self)
-
 
 
 

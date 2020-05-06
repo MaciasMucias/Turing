@@ -14,7 +14,6 @@ Builder.load_string('''
 ''')
 
 
-
 class FilterDD(Factory.DropDown):
     def __init__(self, buttons, **kwargs):
         super(FilterDD, self).__init__(**kwargs)
@@ -34,6 +33,7 @@ class FilterDD(Factory.DropDown):
         for btn in self._buttons:
             if not value or value in btn:
                 self.add_widget(Factory.FDDButton(text=btn))
+
 
 fdd = FilterDD(["one", "two", "three", "four", "five", "six",
                 "seven", "eight", "nine", "ten"])
