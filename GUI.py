@@ -46,28 +46,41 @@ class AlphabetDD(Factory.DropDown):
 class AlphabetPopup(FloatLayout):
     new_chr = ObjectProperty(None)
     del_button = ObjectProperty(None)
+    add_error_msg = ObjectProperty(None)
+    del_error_msg = ObjectProperty(None)
     chr_list = turing.alphabet
 
     alphabet = AlphabetDD()
 
     def add_chr(self):
+        self.add_error_msg.text = ""
+        self.del_error_msg.text = ""
 
         if len(self.new_chr.text) == 1:
-            turing.alphabet_add(self.new_chr.text)
+            if not turing.alphabet_add(self.new_chr.text):
+                self.add_error_msg.text = "Symbol already in Alphabet!"
             self.alphabet.update()
-
+        else:
+            self.add_error_msg.text = "Symbol have to be a single character!"
         self.new_chr.text = ""
 
     def del_chr(self):
-        turing.alphabet_remove(self.del_button.text)
+        self.add_error_msg.text = ""
+        self.del_error_msg.text = ""
+
+        if len(self.del_button.text) > 0:
+            turing.alphabet_remove(self.del_button.text)
+            self.alphabet.update()
+        else:
+            self.del_error_msg.text = "Choose a symbol to delete from Alphabet!"
+
         self.del_button.text = ""
-        self.alphabet.update()
 
     def open_DD(self, root):
         self.alphabet.open(root)
 
     def del_button_text(self, text):
-        self.ids.del_button.text = text
+        self.del_button.text = text
 
 
 class TuringLayout(FloatLayout):
@@ -77,7 +90,8 @@ class TuringLayout(FloatLayout):
         # TODO
         # Implement UI inside the popup allowing change the alphabet
         self.popup_class = AlphabetPopup()
-        popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class, size_hint=(None, None), size=(400, 400))
+        popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class,
+                      size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_list(self):
