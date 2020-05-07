@@ -1,10 +1,12 @@
+#:import GUI GUI
+
 <Button>:
     size_hint: 1/3, 1/4
 
 <FDDButton@Button>:
     size_hint_y: None
     height: '40dp'
-    on_press: print(self.text)
+    on_press: GUI.MainGUI.main_layout.popup_class.del_button_text(self.text)
 
 <TuringLayout>:
     Button:
@@ -24,6 +26,7 @@
 
 <AlphabetPopup>:
     new_chr: new_chr
+    del_button: del_button
     Button:
         size_hint: 1/4, 1/10
         pos_hint: {"x": 0, "top": 0.95}
@@ -40,8 +43,10 @@
         size_hint: 1/4, 1/10
         pos_hint: {"x": 0, "top": 0.75}
         text: "Del"
+        on_press: root.del_chr()
 
     Button:
+        id: del_button
         size_hint: 0.72, 1/10
         pos_hint: {"x": 0.26, "top": 0.75}
         on_release:

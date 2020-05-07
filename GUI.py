@@ -40,38 +40,44 @@ class AlphabetDD(Factory.DropDown):
         self.add_widget(self._filter)
         for btn in self._buttons:
             if not value or value in btn:
-                self.add_widget(Factory.FDDButton(text=btn))
+                self.add_widget(Factory.FDDButton(text=btn, obj=self))
+
+
+class AlphabetPopup(FloatLayout):
+    new_chr = ObjectProperty(None)
+    del_button = ObjectProperty(None)
+    chr_list = turing.alphabet
+
+    alphabet = AlphabetDD()
+
+    def add_chr(self):
+
+        if len(self.new_chr.text) == 1:
+            turing.alphabet_add(self.new_chr.text)
+            self.alphabet.update()
+
+        self.new_chr.text = ""
+
+    def del_chr(self):
+        turing.alphabet_remove(self.del_button.text)
+        self.del_button.text = ""
+        self.alphabet.update()
+
+    def open_DD(self, root):
+        self.alphabet.open(root)
+
+    def del_button_text(self, text):
+        self.ids.del_button.text = text
 
 
 class TuringLayout(FloatLayout):
+    popup_class = None
+
     def change_alphabet(self):
         # TODO
         # Implement UI inside the popup allowing change the alphabet
-        class AlphabetPopup(FloatLayout):
-            new_chr = ObjectProperty(None)
-            chr_list = turing.alphabet
-
-            alphabet = AlphabetDD()
-
-            state = False
-
-            def add_chr(self):
-
-                if len(self.new_chr.text) == 1:
-                    turing.alphabet_add(self.new_chr.text)
-                    self.alphabet.update()
-
-                self.new_chr.text = ""
-
-            def del_chr(self):
-                turing.alphabet_remove(self.removed_chr)
-                self.alphabet.update()
-
-            def open_DD(self, root):
-                self.alphabet.open(root)
-
-
-        popup = Popup(title="Modify Alphabet", title_align="center", content=AlphabetPopup(), size_hint=(None, None), size=(400, 400))
+        self.popup_class = AlphabetPopup()
+        popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class, size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_list(self):
@@ -94,8 +100,16 @@ class TuringLayout(FloatLayout):
 
 
 class TuringGUI(App):
+    main_layout = None
+
     def build(self):
-        return TuringLayout()
+        self.main_layout = TuringLayout()
+        return self.main_layout
 
 
-TuringGUI().run()
+MainGUI = TuringGUI()
+
+MainGUI.run()
+
+
+
