@@ -1,32 +1,40 @@
+# Turing Machine Simulator
+Simulates how the Turing Machine works.
 
+## Class Turing(alphabet, tape, state_list, state_diagram)
 
-# Turing(Alphabet, Tape, State list):
+  **Variables**
 
--Alphabet = Alphabet      -> list of acceptable chars
+  * **alphabet**        -> list of acceptable characters (later called _Symbols_)
 
--Tape = Tape              -> list of chars from Alphabet
+  * **tape**            -> list of _Symbols_
 
--State list = State list  -> a list of states
+  * **state_list**      -> list of acceptable states of the machine (later called _States_)
 
--State diagram = {}       -> dictionary of dictionaries
+  * **state_diagram**   -> dictionary of dictionaries where the first key is _State_, second is _Symbol_ and each entry is an instruction for the machine
 
--Head position = 0        -> a uint value
+  * **head_position**   -> position on Tape (0 initially)
 
--Current state = 0        -> a uint value
+  * **current_state**   -> state of the machine (0 initially)
 
+  **Methods**
 
-# Methods:
+  * **check_input_data(self)**        -> checks if **alphabet**, **tape** and **state_list** are valid
 
--Check input data(Alphabet, Tape)                  -> checks if Tape is consisting of only Alphabet chars
+  * **check_state_diagram(self)**     -> checks if **state_diagram** is valid
 
--Move head(char)                                   -> moves head to left or right
+  * **move_head(self, direction)**    -> modifies **head_position**; moves head left (if **direction** == "L") or right (if **direction** == "R")
 
--Perform operation(State diagram, Current state)   -> modifies current state and tape based on state diagram
+  * **perform_operation(self)**       -> modifies **current_state** and **tape** based on the instruction in **state_diagram**
 
--Run(Tape, Head position, State list, Current state, State diagram) -> Simulate the actions based on tape data
+  * **alphabet_add(self, symbol)**    -> adds new _Symbol_ to **alphabet**
 
+  * **alphabet_remove(self, symbol)** -> removes _Symbol_ from **alphabet**
 
+  * **state_add(self, state)**        -> adds new _State_ to **state_list**
 
-# State diagram example
+  * **state_remove(self, state)**     -> removes _State_ from **state_list**
 
-{state:{char:[char, state, 'L'/'R']}}
+  **State diagram example**
+    
+   {_State_: {_Symbol_: [_Symbol_, _State_, 'L' or 'R']}}
