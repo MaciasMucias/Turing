@@ -101,7 +101,6 @@ class TuringMachine:
         return True
 
     def alphabet_add(self, symbol: chr):
-        print(symbol)
         if symbol in self.alphabet:
             return False
 

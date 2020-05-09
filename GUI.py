@@ -17,16 +17,15 @@ turing = TuringMachine()
 
 
 class AlphabetDD(Factory.DropDown):
-    def __init__(self, **kwargs):
+    def __init__(self, button_names, **kwargs):
         super(AlphabetDD, self).__init__(**kwargs)
-        self._buttons = turing.alphabet
+        self._buttons = button_names
         self._filter = Factory.TextInput(size_hint_y=None, height='40dp', multiline=False)
         self.add_widget(self._filter)
         self._filter.bind(text=self.apply_filter)
 
     def update(self):
-        self._buttons = turing.alphabet
-        print(self._buttons)
+        self._buttons = self._buttons
 
     def open(self, root):
         super().open(root)
@@ -40,7 +39,7 @@ class AlphabetDD(Factory.DropDown):
         self.add_widget(self._filter)
         for btn in self._buttons:
             if not value or value in btn:
-                self.add_widget(Factory.FDDButton(text=btn, obj=self))
+                self.add_widget(Factory.FDDButton(text=btn))
 
 
 class AlphabetPopup(FloatLayout):
@@ -48,20 +47,28 @@ class AlphabetPopup(FloatLayout):
     del_button = ObjectProperty(None)
     add_error_msg = ObjectProperty(None)
     del_error_msg = ObjectProperty(None)
-    chr_list = turing.alphabet
 
-    alphabet = AlphabetDD()
+    def __init__(self, names, add_function, remove_function, error_msg, length_check, **kwargs):
+        super(AlphabetPopup, self).__init__(**kwargs)
+
+        self.chr_list = names
+        self.add_function = add_function
+        self.remove_function = remove_function
+        self.error_msg = error_msg
+        self.length_check = length_check
+
+        self.alphabet = AlphabetDD(names)
 
     def add_chr(self):
         self.add_error_msg.text = ""
         self.del_error_msg.text = ""
 
-        if len(self.new_chr.text) == 1:
-            if not turing.alphabet_add(self.new_chr.text):
-                self.add_error_msg.text = "Symbol already in Alphabet!"
+        if self.length_check(self.new_chr.text):
+            if not self.add_function(self.new_chr.text):
+                self.add_error_msg.text = self.error_msg[0]
             self.alphabet.update()
         else:
-            self.add_error_msg.text = "Symbol have to be a single character!"
+            self.add_error_msg.text = self.error_msg[1]
         self.new_chr.text = ""
 
     def del_chr(self):
@@ -69,10 +76,10 @@ class AlphabetPopup(FloatLayout):
         self.del_error_msg.text = ""
 
         if len(self.del_button.text) > 0:
-            turing.alphabet_remove(self.del_button.text)
+            self.remove_function(self.del_button.text)
             self.alphabet.update()
         else:
-            self.del_error_msg.text = "Choose a symbol to delete from Alphabet!"
+            self.del_error_msg.text = self.error_msg[2]
 
         self.del_button.text = ""
 
@@ -89,7 +96,13 @@ class TuringLayout(FloatLayout):
     def change_alphabet(self):
         # TODO
         # Implement UI inside the popup allowing change the alphabet
-        self.popup_class = AlphabetPopup()
+        error_msg = ["Symbol already in Alphabet!",
+                     "Symbol have to be a single character!",
+                     "Choose a symbol to delete from Alphabet!"]
+        length_check = lambda x: len(x) == 1
+        self.popup_class = AlphabetPopup(names=turing.alphabet, add_function=turing.alphabet_add,
+                                         remove_function=turing.alphabet_remove, error_msg=error_msg,
+                                         length_check=length_check)
         popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
         popup.open()
@@ -97,11 +110,22 @@ class TuringLayout(FloatLayout):
     def change_state_list(self):
         # TODO
         # Implement a window allowing to change the state_list
-        class StatePopup(FloatLayout):
-            pass
+        #class StatePopup(FloatLayout):
+        #    pass
 
-        popup = Popup(title="Modyfikowanie stanow", content=StatePopup(), size_hint=(None, None), size=(400, 400))
+        error_msg = ["State already in States' List!",
+                     "State has to have at least one character!",
+                     "Choose a state to delete from States' List!"]
+        length_check = lambda x: len(x) > 0
+        self.popup_class = AlphabetPopup(names=turing.state_list, add_function=turing.state_add,
+                                         remove_function=turing.state_remove, error_msg=error_msg,
+                                         length_check=length_check)
+        popup = Popup(title="Modify States' List", title_align="center", content=self.popup_class,
+                      size_hint=(None, None), size=(400, 400))
         popup.open()
+
+        #popup = Popup(title="Modyfikowanie stanow", content=StatePopup(), size_hint=(None, None), size=(400, 400))
+        #popup.open()
 
     def change_state_diagram(self):
         # TODO
