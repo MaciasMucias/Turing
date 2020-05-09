@@ -65,14 +65,62 @@
         id: del_error_msg
 
 
-
-<StatePopup>:
-    Label:
-        text: "Placeholder"
-        pos_hint: {"x":0, "y": 0}
-
 <DiagramPopup>:
     Label:
-        text: "Placeholder"
-        pos_hint: {"x":0, "y": 0}
+        text: "INPUT"
+        pos_hint: {"x":-0.25, "y": 0.45}
 
+    Label:
+        text: "OUTPUT"
+        pos_hint: {"x":0.25, "y": 0.45}
+
+    Label:
+        text: "Symbol"
+        pos_hint: {"x":-0.25, "y": 0.30}
+
+    Button:
+        size_hint: 0.48, 1/10
+        pos_hint: {"x": 0.01, "top": 0.75}
+        on_release: root.open_in_symbols(self)
+
+    Label:
+        text: "State"
+        pos_hint: {"x":-0.25, "y": 0.05}
+
+    Button:
+        size_hint: 0.48, 1/10
+        pos_hint: {"x": 0.01, "top": 0.50}
+        on_release: root.open_in_states(self)
+
+    Label:
+        text: "Symbol"
+        pos_hint: {"x":0.25, "y": 0.30}
+
+    Button:
+        size_hint: 0.48, 1/10
+        pos_hint: {"right": 0.99, "top": 0.75}
+        on_release: root.open_out_symbols(self)
+
+    Label:
+        text: "State"
+        pos_hint: {"x":0.25, "y": 0.05}
+
+    Button:
+        size_hint: 0.48, 1/10
+        pos_hint: {"right": 0.99, "top": 0.50}
+        on_release: root.open_out_states(self)
+
+    Label:
+        text: "Direction"
+        pos_hint: {"x":0.25, "y": -0.20}
+
+    Button:
+        text: "L"
+        size_hint: 0.20, 1/10
+        pos_hint: {"right": 0.85, "top": 0.25}
+        on_release: root.change_direction(self)
+
+    Button:
+        size_hint: 0.30, 1/10
+        pos_hint: {"x": 0.10, "top": 0.25}
+        text: "Add State Diagram"

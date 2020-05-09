@@ -90,6 +90,72 @@ class AlphabetPopup(FloatLayout):
         self.del_button.text = text
 
 
+class DiagramPopup(FloatLayout):
+    '''
+    new_chr = ObjectProperty(None)
+    del_button = ObjectProperty(None)
+    add_error_msg = ObjectProperty(None)
+    del_error_msg = ObjectProperty(None)
+    '''
+    def __init__(self, **kwargs):
+        super(DiagramPopup, self).__init__(**kwargs)
+
+        self.in_symbols = AlphabetDD(turing.alphabet)
+        self.out_symbols = AlphabetDD(turing.alphabet)
+        self.in_states = AlphabetDD(turing.state_list)
+        self.out_states = AlphabetDD(turing.state_list)
+
+        self.direction = 0
+        self.possible_directions = ['L', 'R']
+
+    def add_chr(self):
+        self.add_error_msg.text = ""
+        self.del_error_msg.text = ""
+        '''
+        if self.length_check(self.new_chr.text):
+            if not self.add_function(self.new_chr.text):
+                self.add_error_msg.text = self.error_msg[0]
+            self.alphabet.update()
+        else:
+            self.add_error_msg.text = self.error_msg[1]
+        self.new_chr.text = ""
+        '''
+
+    def del_chr(self):
+        self.add_error_msg.text = ""
+        self.del_error_msg.text = ""
+        '''
+        if len(self.del_button.text) > 0:
+            self.remove_function(self.del_button.text)
+            self.alphabet.update()
+        else:
+            self.del_error_msg.text = self.error_msg[2]
+
+        self.del_button.text = ""
+        '''
+
+    def open_in_symbols(self, root):
+        self.in_symbols.open(root)
+
+    def open_out_symbols(self, root):
+        self.out_symbols.open(root)
+
+    def open_in_states(self, root):
+        self.in_states.open(root)
+
+    def open_out_states(self, root):
+        self.out_states.open(root)
+
+    def change_direction(self, root):
+        self.direction = (self.direction + 1) % 2
+        root.text = self.possible_directions[self.direction]
+
+    '''
+    def del_button_text(self, text):
+        self.del_button.text = text
+    '''
+
+
 class TuringLayout(FloatLayout):
     popup_class = None
 
@@ -130,10 +196,10 @@ class TuringLayout(FloatLayout):
     def change_state_diagram(self):
         # TODO
         # Implement a window allowing to change the state_diagram
-        class DiagramPopup(FloatLayout):
-            pass
 
-        popup = Popup(title="Modyfikowanie diagramu", content=DiagramPopup(), size_hint=(None, None), size=(400, 400))
+        self.popup_class = DiagramPopup()
+        popup = Popup(title="Modify States' Diagram", title_align="center", content=self.popup_class,
+                      size_hint=(None, None), size=(800, 400))
         popup.open()
 
 
