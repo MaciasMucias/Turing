@@ -16,9 +16,9 @@ from kivy.factory import Factory
 turing = TuringMachine()
 
 
-class AlphabetDD(Factory.DropDown):
+class ElementsDD(Factory.DropDown):
     def __init__(self, button_names, **kwargs):
-        super(AlphabetDD, self).__init__(**kwargs)
+        super(ElementsDD, self).__init__(**kwargs)
         self._buttons = button_names
         self._filter = Factory.TextInput(size_hint_y=None, height='40dp', multiline=False)
         self.add_widget(self._filter)
@@ -42,14 +42,14 @@ class AlphabetDD(Factory.DropDown):
                 self.add_widget(Factory.FDDButton(text=btn))
 
 
-class AlphabetPopup(FloatLayout):
+class ModifyElementsPopup(FloatLayout):
     new_chr = ObjectProperty(None)
     del_button = ObjectProperty(None)
     add_error_msg = ObjectProperty(None)
     del_error_msg = ObjectProperty(None)
 
     def __init__(self, names, add_function, remove_function, error_msg, length_check, **kwargs):
-        super(AlphabetPopup, self).__init__(**kwargs)
+        super(ModifyElementsPopup, self).__init__(**kwargs)
 
         self.chr_list = names
         self.add_function = add_function
@@ -57,7 +57,7 @@ class AlphabetPopup(FloatLayout):
         self.error_msg = error_msg
         self.length_check = length_check
 
-        self.alphabet = AlphabetDD(names)
+        self.alphabet = ElementsDD(names)
 
     def add_chr(self):
         self.add_error_msg.text = ""
@@ -91,19 +91,19 @@ class AlphabetPopup(FloatLayout):
 
 
 class DiagramPopup(FloatLayout):
-    '''
+
     new_chr = ObjectProperty(None)
     del_button = ObjectProperty(None)
     add_error_msg = ObjectProperty(None)
     del_error_msg = ObjectProperty(None)
-    '''
+
     def __init__(self, **kwargs):
         super(DiagramPopup, self).__init__(**kwargs)
 
-        self.in_symbols = AlphabetDD(turing.alphabet)
-        self.out_symbols = AlphabetDD(turing.alphabet)
-        self.in_states = AlphabetDD(turing.state_list)
-        self.out_states = AlphabetDD(turing.state_list)
+        self.in_symbols = ElementsDD(turing.alphabet)
+        self.out_symbols = ElementsDD(turing.alphabet)
+        self.in_states = ElementsDD(turing.state_list)
+        self.out_states = ElementsDD(turing.state_list)
 
         self.direction = 0
         self.possible_directions = ['L', 'R']
@@ -166,7 +166,7 @@ class TuringLayout(FloatLayout):
                      "Symbol have to be a single character!",
                      "Choose a symbol to delete from Alphabet!"]
         length_check = lambda x: len(x) == 1
-        self.popup_class = AlphabetPopup(names=turing.alphabet, add_function=turing.alphabet_add,
+        self.popup_class = ModifyElementsPopup(names=turing.alphabet, add_function=turing.alphabet_add,
                                          remove_function=turing.alphabet_remove, error_msg=error_msg,
                                          length_check=length_check)
         popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class,
@@ -183,7 +183,7 @@ class TuringLayout(FloatLayout):
                      "State has to have at least one character!",
                      "Choose a state to delete from States' List!"]
         length_check = lambda x: len(x) > 0
-        self.popup_class = AlphabetPopup(names=turing.state_list, add_function=turing.state_add,
+        self.popup_class = ModifyElementsPopup(names=turing.state_list, add_function=turing.state_add,
                                          remove_function=turing.state_remove, error_msg=error_msg,
                                          length_check=length_check)
         popup = Popup(title="Modify States' List", title_align="center", content=self.popup_class,
