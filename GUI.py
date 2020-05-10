@@ -160,38 +160,26 @@ class TuringLayout(FloatLayout):
     popup_class = None
 
     def change_alphabet(self):
-        # TODO
-        # Implement UI inside the popup allowing change the alphabet
         error_msg = ["Symbol already in Alphabet!",
                      "Symbol have to be a single character!",
                      "Choose a symbol to delete from Alphabet!"]
-        length_check = lambda x: len(x) == 1
         self.popup_class = ModifyElementsPopup(names=turing.alphabet, add_function=turing.alphabet_add,
-                                         remove_function=turing.alphabet_remove, error_msg=error_msg,
-                                         length_check=length_check)
+                                               remove_function=turing.alphabet_remove, error_msg=error_msg,
+                                               length_check=lambda x: len(x) == 1)
         popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_list(self):
-        # TODO
-        # Implement a window allowing to change the state_list
-        #class StatePopup(FloatLayout):
-        #    pass
-
         error_msg = ["State already in States' List!",
                      "State has to have at least one character!",
                      "Choose a state to delete from States' List!"]
-        length_check = lambda x: len(x) > 0
         self.popup_class = ModifyElementsPopup(names=turing.state_list, add_function=turing.state_add,
                                          remove_function=turing.state_remove, error_msg=error_msg,
-                                         length_check=length_check)
+                                         length_check= lambda x: len(x) > 0)
         popup = Popup(title="Modify States' List", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
         popup.open()
-
-        #popup = Popup(title="Modyfikowanie stanow", content=StatePopup(), size_hint=(None, None), size=(400, 400))
-        #popup.open()
 
     def change_state_diagram(self):
         # TODO
