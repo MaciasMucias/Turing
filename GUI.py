@@ -92,10 +92,10 @@ class ModifyElementsPopup(FloatLayout):
 
 class DiagramPopup(FloatLayout):
 
-    new_chr = ObjectProperty(None)
-    del_button = ObjectProperty(None)
-    add_error_msg = ObjectProperty(None)
-    del_error_msg = ObjectProperty(None)
+    in_symbol = ObjectProperty(None)
+    in_state = ObjectProperty(None)
+    out_symbol = ObjectProperty(None)
+    out_state = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(DiagramPopup, self).__init__(**kwargs)
@@ -107,6 +107,7 @@ class DiagramPopup(FloatLayout):
 
         self.direction = 0
         self.possible_directions = ['L', 'R']
+        self.dropdown_active = 0
 
     def add_chr(self):
         self.add_error_msg.text = ""
@@ -135,25 +136,34 @@ class DiagramPopup(FloatLayout):
         '''
 
     def open_in_symbols(self, root):
+        self.dropdown_active = 1
         self.in_symbols.open(root)
 
     def open_out_symbols(self, root):
+        self.dropdown_active = 2
         self.out_symbols.open(root)
 
     def open_in_states(self, root):
+        self.dropdown_active = 3
         self.in_states.open(root)
 
     def open_out_states(self, root):
+        self.dropdown_active = 4
         self.out_states.open(root)
 
     def change_direction(self, root):
         self.direction = (self.direction + 1) % 2
         root.text = self.possible_directions[self.direction]
 
-    '''
     def del_button_text(self, text):
-        self.del_button.text = text
-    '''
+        if self.dropdown_active == 1:
+            self.in_symbol.text = text
+        elif self.dropdown_active == 2:
+            self.out_symbol.text = text
+        elif self.dropdown_active == 3:
+            self.in_state.text = text
+        elif self.dropdown_active == 4:
+            self.out_state.text = text
 
 
 class TuringLayout(FloatLayout):

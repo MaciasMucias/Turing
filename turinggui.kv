@@ -66,6 +66,10 @@
 
 
 <DiagramPopup>:
+    in_symbol: in_symbol
+    in_state: in_state
+    out_symbol: out_symbol
+    out_state: out_state
     Label:
         text: "INPUT"
         pos_hint: {"x":-0.25, "y": 0.45}
@@ -79,6 +83,7 @@
         pos_hint: {"x":-0.25, "y": 0.30}
 
     Button:
+        id: in_symbol
         size_hint: 0.48, 1/10
         pos_hint: {"x": 0.01, "top": 0.75}
         on_release: root.open_in_symbols(self)
@@ -88,6 +93,7 @@
         pos_hint: {"x":-0.25, "y": 0.05}
 
     Button:
+        id: in_state
         size_hint: 0.48, 1/10
         pos_hint: {"x": 0.01, "top": 0.50}
         on_release: root.open_in_states(self)
@@ -97,6 +103,7 @@
         pos_hint: {"x":0.25, "y": 0.30}
 
     Button:
+        id: out_symbol
         size_hint: 0.48, 1/10
         pos_hint: {"right": 0.99, "top": 0.75}
         on_release: root.open_out_symbols(self)
@@ -106,6 +113,7 @@
         pos_hint: {"x":0.25, "y": 0.05}
 
     Button:
+        id: out_state
         size_hint: 0.48, 1/10
         pos_hint: {"right": 0.99, "top": 0.50}
         on_release: root.open_out_states(self)
