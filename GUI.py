@@ -165,6 +165,13 @@ class DiagramPopup(FloatLayout):
         elif self.dropdown_active == 4:
             self.out_state.text = text
 
+    def set_diagram(self):
+        turing.diagram_set(self.in_state.text,
+                           self.in_symbol.text,
+                           self.out_symbol.text,
+                           self.out_state.text,
+                           self.direction)
+
 
 class TuringLayout(FloatLayout):
     popup_class = None

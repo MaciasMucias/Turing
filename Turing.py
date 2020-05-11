@@ -127,3 +127,13 @@ class TuringMachine:
 
         self.state_list.remove(state)
         return True
+
+    def diagram_set(self, in_state, in_symbol, out_symbol, out_state, direction):
+        if in_state in self.state_diagram.keys():
+            if in_symbol in self.state_diagram[in_state].keys():
+                self.state_diagram[in_state][in_symbol] = [out_symbol, out_state, direction]
+            else:
+                self.state_diagram[in_state].update({in_symbol: [out_symbol, out_state, direction]})
+        else:
+            self.state_diagram[in_state] = {in_symbol: [out_symbol, out_state, direction]}
+        print(self.state_diagram)
