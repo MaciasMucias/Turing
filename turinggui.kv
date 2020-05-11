@@ -78,6 +78,12 @@
     in_state: in_state
     out_symbol: out_symbol
     out_state: out_state
+    in_symbol_msg: in_symbol_msg
+    in_state_msg: in_state_msg
+    out_symbol_msg: out_symbol_msg
+    out_state_msg: out_state_msg
+    add_diagram_msg: add_diagram_msg
+
     Label:
         text: "INPUT"
         pos_hint: {"x":-0.25, "y": 0.45}
@@ -97,6 +103,11 @@
         on_release: root.open_in_symbols(self)
 
     Label:
+        pos_hint: {"x": -0.25, "y": 0.12}
+        color: 1,0,0,1
+        id: in_symbol_msg
+
+    Label:
         text: "State"
         pos_hint: {"x":-0.25, "y": 0.05}
 
@@ -105,6 +116,11 @@
         size_hint: 0.48, 1/10
         pos_hint: {"x": 0.01, "top": 0.50}
         on_release: root.open_in_states(self)
+
+    Label:
+        pos_hint: {"x": -0.25, "y": -0.13}
+        color: 1,0,0,1
+        id: in_state_msg
 
     Label:
         text: "Symbol"
@@ -117,6 +133,11 @@
         on_release: root.open_out_symbols(self)
 
     Label:
+        pos_hint: {"x": 0.25, "y": 0.12}
+        color: 1,0,0,1
+        id: out_symbol_msg
+
+    Label:
         text: "State"
         pos_hint: {"x":0.25, "y": 0.05}
 
@@ -125,6 +146,11 @@
         size_hint: 0.48, 1/10
         pos_hint: {"right": 0.99, "top": 0.50}
         on_release: root.open_out_states(self)
+
+    Label:
+        pos_hint: {"x": 0.25, "y": -0.13}
+        color: 1,0,0,1
+        id: out_state_msg
 
     Label:
         text: "Direction"
@@ -141,3 +167,8 @@
         pos_hint: {"x": 0.10, "top": 0.25}
         text: "Add State Diagram"
         on_release: root.set_diagram()
+
+    Label:
+        pos_hint: {"x": -0.25, "y": -0.38}
+        color: 1,0,0,1
+        id: add_diagram_msg

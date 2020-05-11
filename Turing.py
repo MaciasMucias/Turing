@@ -133,9 +133,11 @@ class TuringMachine:
             return False
         if in_state in self.state_diagram.keys():
             if in_symbol in self.state_diagram[in_state].keys():
-                self.state_diagram[in_state][in_symbol] = [out_symbol, out_state, direction]
+                return False
             else:
                 self.state_diagram[in_state].update({in_symbol: [out_symbol, out_state, direction]})
         else:
             self.state_diagram[in_state] = {in_symbol: [out_symbol, out_state, direction]}
         print(self.state_diagram)
+
+        return True

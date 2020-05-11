@@ -94,6 +94,12 @@ class DiagramPopup(FloatLayout):
     out_symbol = ObjectProperty(None)
     out_state = ObjectProperty(None)
 
+    in_symbol_msg = ObjectProperty(None)
+    in_state_msg = ObjectProperty(None)
+    out_symbol_msg = ObjectProperty(None)
+    out_state_msg = ObjectProperty(None)
+    add_diagram_msg = ObjectProperty(None)
+
     def __init__(self, **kwargs):
         super(DiagramPopup, self).__init__(**kwargs)
 
@@ -133,18 +139,22 @@ class DiagramPopup(FloatLayout):
         '''
 
     def open_in_symbols(self, root):
+        self.in_symbol_msg.text = ""
         self.dropdown_active = 1
         self.in_symbols.open(root)
 
     def open_out_symbols(self, root):
+        self.out_symbol_msg.text = ""
         self.dropdown_active = 2
         self.out_symbols.open(root)
 
     def open_in_states(self, root):
+        self.in_state_msg.text = ""
         self.dropdown_active = 3
         self.in_states.open(root)
 
     def open_out_states(self, root):
+        self.out_state_msg.text = ""
         self.dropdown_active = 4
         self.out_states.open(root)
 
@@ -163,11 +173,34 @@ class DiagramPopup(FloatLayout):
             self.out_state.text = text
 
     def set_diagram(self):
-        turing.diagram_set(self.in_state.text,
-                           self.in_symbol.text,
-                           self.out_symbol.text,
-                           self.out_state.text,
-                           self.direction)
+        self.in_symbol_msg.text = ""
+        self.out_symbol_msg.text = ""
+        self.in_state_msg.text = ""
+        self.out_state_msg.text = ""
+        self.add_diagram_msg.text = ""
+        good = True
+        if self.in_symbol.text == "":
+            self.in_symbol_msg.text = "Choose a Symbol!"
+            good = False
+        if self.in_state.text == "":
+            self.in_state_msg.text = "Choose a State!"
+            good = False
+        if self.out_symbol.text == "":
+            self.out_symbol_msg.text = "Choose a Symbol!"
+            good = False
+        if self.out_state.text == "":
+            self.out_state_msg.text = "Choose a State!"
+            good = False
+
+        if good:
+            result = turing.diagram_set(self.in_state.text,
+                                        self.in_symbol.text,
+                                        self.out_symbol.text,
+                                        self.out_state.text,
+                                        self.possible_directions[self.direction])
+
+            if not result:
+                self.add_diagram_msg.text = "Instruction already in the Diagram!"
 
 
 class SettingsPopoup(FloatLayout):
