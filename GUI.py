@@ -89,7 +89,6 @@ class ModifyElementsPopup(FloatLayout):
 
 
 class DiagramPopup(FloatLayout):
-
     in_symbol = ObjectProperty(None)
     in_state = ObjectProperty(None)
     out_symbol = ObjectProperty(None)
@@ -171,6 +170,10 @@ class DiagramPopup(FloatLayout):
                            self.direction)
 
 
+class SettingsPopoup(FloatLayout):
+    pass
+
+
 class TuringLayout(FloatLayout):
     popup_class = None
 
@@ -190,19 +193,22 @@ class TuringLayout(FloatLayout):
                      "State has to have at least one character!",
                      "Choose a state to delete from States' List!"]
         self.popup_class = ModifyElementsPopup(names=turing.state_list, add_function=turing.state_add,
-                                         remove_function=turing.state_remove, error_msg=error_msg,
-                                         length_check= lambda x: len(x) > 0)
+                                               remove_function=turing.state_remove, error_msg=error_msg,
+                                               length_check= lambda x: len(x) > 0)
         popup = Popup(title="Modify States' List", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
         popup.open()
 
     def change_state_diagram(self):
-        # TODO
-        # Implement a window allowing to change the state_diagram
-
         self.popup_class = DiagramPopup()
         popup = Popup(title="Modify States' Diagram", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(800, 400))
+        popup.open()
+
+    def settings(self):
+        self.popup_class = SettingsPopoup()
+        popup = Popup(title="Settings", title_align="center", content=self.popup_class,
+                      size_hint=(None, None), size=(400, 400))
         popup.open()
 
 
