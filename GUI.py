@@ -11,8 +11,6 @@ from kivy.core.window import Window
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
 from kivy.factory import Factory
 
-# Window.fullscreen = 'auto'
-
 turing = TuringMachine()
 
 

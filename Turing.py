@@ -129,6 +129,8 @@ class TuringMachine:
         return True
 
     def diagram_set(self, in_state, in_symbol, out_symbol, out_state, direction):
+        if "" in [in_state, in_symbol, out_symbol, out_state]:
+            return False
         if in_state in self.state_diagram.keys():
             if in_symbol in self.state_diagram[in_state].keys():
                 self.state_diagram[in_state][in_symbol] = [out_symbol, out_state, direction]

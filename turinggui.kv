@@ -6,23 +6,30 @@
 <FDDButton@Button>:
     size_hint_y: None
     height: '40dp'
-    on_press: MainGUI.main_layout.popup_class.del_button_text(self.text)
+    on_release: MainGUI.main_layout.popup_class.del_button_text(self.text)
 
 <TuringLayout>:
     Button:
+        pos_hint: {"left": 0, "top": 1}
+        size_hint: None, None
+        size: pt(64), pt(64)
+        background_normal: "settings-icon.png"
+        background_down: "settings-icon-down.png"
+
+    Button:
         pos_hint: {"x": 0, "bottom": 0}
         text: "Change alphabet"
-        on_press: root.change_alphabet()
+        on_release: root.change_alphabet()
 
     Button:
         pos_hint: {"x": 1/3, "bottom": 0}
         text: "Change states"
-        on_press: root.change_state_list()
+        on_release: root.change_state_list()
 
     Button:
         pos_hint: {"x": 2/3, "bottom": 0}
         text: "Change diagram"
-        on_press: root.change_state_diagram()
+        on_release: root.change_state_diagram()
 
 <ModifyElementsPopup>:
     new_chr: new_chr
@@ -33,7 +40,7 @@
         size_hint: 1/4, 1/10
         pos_hint: {"x": 0, "top": 0.95}
         text: "Add"
-        on_press: root.add_chr()
+        on_release: root.add_chr()
 
     TextInput:
         size_hint: 0.72, 1/10
@@ -50,7 +57,7 @@
         size_hint: 1/4, 1/10
         pos_hint: {"x": 0, "top": 0.70}
         text: "Del"
-        on_press: root.del_chr()
+        on_release: root.del_chr()
 
     Button:
         id: del_button
