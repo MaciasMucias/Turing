@@ -204,7 +204,11 @@ class DiagramPopup(FloatLayout):
 
 
 class SettingsPopoup(FloatLayout):
-    pass
+    def save(self):
+        turing.save_data('saved.mach')
+
+    def load(self):
+        turing.load_data('saved.mach')
 
 
 class TuringLayout(FloatLayout):

@@ -172,3 +172,14 @@
         pos_hint: {"x": -0.25, "y": -0.38}
         color: 1,0,0,1
         id: add_diagram_msg
+
+<SettingsPopoup>:
+    Button:
+        pos_hint: {"x": 0.10, "top": 0.25}
+        text: "Save"
+        on_release: root.save()
+
+    Button:
+        pos_hint: {"x": 0.60, "top": 0.25}
+        text: "Load"
+        on_release: root.load()

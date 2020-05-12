@@ -138,6 +138,19 @@ class TuringMachine:
                 self.state_diagram[in_state].update({in_symbol: [out_symbol, out_state, direction]})
         else:
             self.state_diagram[in_state] = {in_symbol: [out_symbol, out_state, direction]}
-        print(self.state_diagram)
-
         return True
+
+    def save_data(self, name):
+        with open(name, 'w+') as f:
+            f.write(str(self.alphabet) + '\n')
+            f.write(str(self.state_list) + '\n')
+            f.write(str(self.state_diagram))
+
+    def load_data(self, name):
+        # brzydkie i nie poprawne
+        # nie patrzec sie poki co
+        # to sie naprawi
+        with open(name, 'r') as f:
+            self.alphabet = eval(f.readline()[:-1])
+            self.state_list = eval(f.readline()[:-1])
+            self.state_diagram = eval(f.readline())
