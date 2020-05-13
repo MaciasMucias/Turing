@@ -1,8 +1,5 @@
 #:import MainGUI GUI.MainGUI
 
-<Button>:
-    size_hint: 1/3, 1/4
-
 <FDDButton@Button>:
     size_hint_y: None
     height: '40dp'
@@ -18,19 +15,28 @@
         on_release: root.settings()
 
     Button:
+        size_hint: 1/3, 1/5
         pos_hint: {"x": 0, "bottom": 0}
         text: "Change alphabet"
         on_release: root.change_alphabet()
 
     Button:
+        size_hint: 1/3, 1/5
         pos_hint: {"x": 1/3, "bottom": 0}
         text: "Change states"
         on_release: root.change_state_list()
 
     Button:
-        pos_hint: {"x": 2/3, "bottom": 0}
-        text: "Change diagram"
+        size_hint: 1/3, 1/10
+        pos_hint: {"x": 2/3, "y": 0}
+        text: "Add diagram"
         on_release: root.change_state_diagram()
+
+    Button:
+        size_hint: 1/3, 1/10
+        pos_hint: {"x": 2/3, "y": 0.1}
+        text: "Delete diagram"
+        on_release: root.del_state_diagram()
 
 <ModifyElementsPopup>:
     new_chr: new_chr
@@ -189,11 +195,100 @@
 
 <SettingsPopoup>:
     Button:
+        size_hint: 1/3, 1/5
         pos_hint: {"x": 0.10, "top": 0.25}
         text: "Save"
         on_release: root.save()
 
     Button:
+        size_hint: 1/3, 1/5
         pos_hint: {"x": 0.60, "top": 0.25}
         text: "Load"
         on_release: root.load()
+
+<DeleteDiagramPopup>:
+    in_symbol: in_symbol
+    in_state: in_state
+    out_symbol: out_symbol
+    out_state: out_state
+    out_direction: out_direction
+    in_symbol_msg: in_symbol_msg
+    in_state_msg: in_state_msg
+    del_diagram_msg: del_diagram_msg
+
+    Label:
+        text: "INPUT"
+        pos_hint: {"x":-0.25, "y": 0.45}
+
+    Label:
+        text: "OUTPUT"
+        pos_hint: {"x":0.25, "y": 0.45}
+
+    Label:
+        text: "State"
+        pos_hint: {"x":-0.25, "y": 0.30}
+
+    Button:
+        id: in_state
+        size_hint: 0.48, 1/10
+        pos_hint: {"x": 0.01, "top": 0.75}
+        on_release: root.open_in_states(self)
+
+    Label:
+        pos_hint: {"x": -0.25, "y": 0.12}
+        color: 1,0,0,1
+        id: in_state_msg
+
+    Label:
+        text: "Symbol"
+        pos_hint: {"x":-0.25, "y": 0.05}
+
+    Button:
+        id: in_symbol
+        size_hint: 0.48, 1/10
+        pos_hint: {"x": 0.01, "top": 0.50}
+        on_release: root.open_in_symbols(self)
+
+    Label:
+        pos_hint: {"x": -0.25, "y": -0.13}
+        color: 1,0,0,1
+        id: in_symbol_msg
+
+    Label:
+        text: "Symbol"
+        pos_hint: {"x":0.25, "y": 0.30}
+
+    Button:
+        id: out_symbol
+        size_hint: 0.48, 1/10
+        pos_hint: {"right": 0.99, "top": 0.75}
+
+    Label:
+        text: "State"
+        pos_hint: {"x":0.25, "y": 0.05}
+
+    Button:
+        id: out_state
+        size_hint: 0.48, 1/10
+        pos_hint: {"right": 0.99, "top": 0.50}
+
+
+    Label:
+        text: "Direction"
+        pos_hint: {"x":0.25, "y": -0.20}
+
+    Button:
+        id: out_direction
+        size_hint: 0.20, 1/10
+        pos_hint: {"right": 0.85, "top": 0.25}
+
+    Button:
+        size_hint: 0.30, 1/10
+        pos_hint: {"x": 0.10, "top": 0.25}
+        text: "Delete Instruction"
+        on_release: root.del_diagram()
+
+    Label:
+        pos_hint: {"x": -0.25, "y": -0.38}
+        color: 1,0,0,1
+        id: del_diagram_msg

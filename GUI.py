@@ -135,32 +135,6 @@ class DiagramPopup(FloatLayout):
         self.possible_directions = ['L', 'R']
         self.dropdown_active = 0
 
-    def add_chr(self):
-        self.add_error_msg.text = ""
-        self.del_error_msg.text = ""
-        '''
-        if self.length_check(self.new_chr.text):
-            if not self.add_function(self.new_chr.text):
-                self.add_error_msg.text = self.error_msg[0]
-            self.alphabet.update()
-        else:
-            self.add_error_msg.text = self.error_msg[1]
-        self.new_chr.text = ""
-        '''
-
-    def del_chr(self):
-        self.add_error_msg.text = ""
-        self.del_error_msg.text = ""
-        '''
-        if len(self.del_button.text) > 0:
-            self.remove_function(self.del_button.text)
-            self.alphabet.update()
-        else:
-            self.del_error_msg.text = self.error_msg[2]
-
-        self.del_button.text = ""
-        '''
-
     def open_in_symbols(self, root):
         self.in_symbol_msg.text = ""
         self.dropdown_active = 1
@@ -226,6 +200,77 @@ class DiagramPopup(FloatLayout):
                 self.add_diagram_msg.text = "Instruction already in the Diagram!"
 
 
+class DeleteDiagramPopup(FloatLayout):
+    in_symbol = ObjectProperty(None)
+    in_state = ObjectProperty(None)
+    out_symbol = ObjectProperty(None)
+    out_state = ObjectProperty(None)
+    out_direction = ObjectProperty(None)
+
+    in_symbol_msg = ObjectProperty(None)
+    in_state_msg = ObjectProperty(None)
+    del_diagram_msg = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(DeleteDiagramPopup, self).__init__(**kwargs)
+
+        self.in_symbols = ElementsDD([])
+        self.in_states = ElementsDD(turing.state_diagram.keys())
+
+        self.dropdown_active = 0
+
+    def open_in_symbols(self, root):
+        self.in_symbol_msg.text = ""
+        self.dropdown_active = 1
+        self.in_symbols.open(root)
+
+    def open_in_states(self, root):
+        self.in_state_msg.text = ""
+        self.dropdown_active = 2
+        self.in_states.open(root)
+
+    def del_button_text(self, text):
+        self.in_symbol.text = ""
+        self.out_symbol.text = ""
+        self.out_state.text = ""
+        self.out_direction.text = ""
+
+        if self.dropdown_active == 1:
+            self.in_symbol.text = text
+            self.out_symbol.text = turing.state_diagram[self.in_state.text][text][0]
+            self.out_state.text = turing.state_diagram[self.in_state.text][text][1]
+            self.out_direction.text = turing.state_diagram[self.in_state.text][text][2]
+        elif self.dropdown_active == 2:
+            self.in_state.text = text
+            self.in_symbols._buttons = turing.state_diagram[text].keys()
+
+    def del_diagram(self):
+        good = True
+        self.in_symbol_msg.text = ""
+        self.in_state_msg.text = ""
+        self.del_diagram_msg.text = ""
+        if self.in_symbol.text == "":
+            self.in_symbol_msg.text = "Choose a Symbol!"
+            good = False
+        if self.in_state.text == "":
+            self.in_state_msg.text = "Choose a State!"
+            good = False
+
+        self.out_symbol.text = ""
+        self.out_state.text = ""
+        self.out_direction.text = ""
+
+        if good:
+            result = turing.diagram_del(self.in_state.text,
+                                        self.in_symbol.text)
+            self.in_symbol.text = ""
+            self.in_state.text = ""
+            self.in_states._buttons = turing.state_diagram.keys()
+            self.in_symbols._buttons = []
+            if not result:
+                self.del_diagram_msg.text = "Instruction not in the Diagram!"
+
+
 class SettingsPopoup(FloatLayout):
     def save(self):
         turing.save_data('saved.mach')
@@ -261,7 +306,13 @@ class TuringLayout(FloatLayout):
 
     def change_state_diagram(self):
         self.popup_class = DiagramPopup()
-        popup = Popup(title="Modify States' Diagram", title_align="center", content=self.popup_class,
+        popup = Popup(title="Add Instruction", title_align="center", content=self.popup_class,
+                      size_hint=(None, None), size=(800, 400))
+        popup.open()
+
+    def del_state_diagram(self):
+        self.popup_class = DeleteDiagramPopup()
+        popup = Popup(title="Delete Instruction", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(800, 400))
         popup.open()
 

@@ -140,6 +140,18 @@ class TuringMachine:
             self.state_diagram[in_state] = {in_symbol: [out_symbol, out_state, direction]}
         return True
 
+    def diagram_del(self, in_state, in_symbol):
+        if in_state not in self.state_diagram:
+            return False
+        if in_symbol not in self.state_diagram[in_state]:
+            return False
+
+        del self.state_diagram[in_state][in_symbol]
+        if self.state_diagram[in_state] == {}:
+            del self.state_diagram[in_state]
+
+        return True
+
     def save_data(self, name):
         with open(name, 'w+') as f:
             f.write(str(self.alphabet) + '\n')
