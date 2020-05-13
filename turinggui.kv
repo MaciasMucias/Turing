@@ -35,6 +35,7 @@
 <ModifyElementsPopup>:
     new_chr: new_chr
     del_button: del_button
+    default_button: default_button
     add_error_msg: add_error_msg
     del_error_msg: del_error_msg
     Button:
@@ -65,12 +66,25 @@
         size_hint: 0.72, 1/10
         pos_hint: {"x": 0.26, "top": 0.70}
         on_release:
-            root.open_DD(self)
+            root.open_DD(self, 1)
 
     Label:
         pos_hint: {"x": 0.12, "y": 0.05}
         color: 1,0,0,1
         id: del_error_msg
+
+    Button:
+        size_hint: 1/4, 1/10
+        pos_hint: {"x": 0, "top": 0.45}
+        text: "Default"
+        on_release: root.set_default()
+
+    Button:
+        id: default_button
+        size_hint: 0.72, 1/10
+        pos_hint: {"x": 0.26, "top": 0.45}
+        on_release:
+            root.open_DD(self, 2)
 
 
 <DiagramPopup>:

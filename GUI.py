@@ -43,6 +43,7 @@ class ElementsDD(Factory.DropDown):
 class ModifyElementsPopup(FloatLayout):
     new_chr = ObjectProperty(None)
     del_button = ObjectProperty(None)
+    default_button = ObjectProperty(None)
     add_error_msg = ObjectProperty(None)
     del_error_msg = ObjectProperty(None)
 
@@ -54,8 +55,17 @@ class ModifyElementsPopup(FloatLayout):
         self.remove_function = remove_function
         self.error_msg = error_msg
         self.length_check = length_check
+        self.popup_id = 0
 
         self.alphabet = ElementsDD(names)
+
+        self.update_button()
+
+    def update_button(self):
+        if len(self.chr_list) == 0:
+            self.default_button.text = ""
+        else:
+            self.default_button.text = self.chr_list[0]
 
     def add_chr(self):
         self.add_error_msg.text = ""
@@ -69,6 +79,8 @@ class ModifyElementsPopup(FloatLayout):
             self.add_error_msg.text = self.error_msg[1]
         self.new_chr.text = ""
 
+        self.update_button()
+
     def del_chr(self):
         self.add_error_msg.text = ""
         self.del_error_msg.text = ""
@@ -81,11 +93,22 @@ class ModifyElementsPopup(FloatLayout):
 
         self.del_button.text = ""
 
-    def open_DD(self, root):
+        self.update_button()
+
+    def set_default(self):
+        if self.default_button.text != "":
+            pos = self.chr_list.index(self.default_button.text)
+            self.chr_list[0], self.chr_list[pos] = self.chr_list[pos], self.chr_list[0]
+
+    def open_DD(self, root, popup):
+        self.popup_id = popup
         self.alphabet.open(root)
 
     def del_button_text(self, text):
-        self.del_button.text = text
+        if self.popup_id == 1:
+            self.del_button.text = text
+        elif self.popup_id == 2:
+            self.default_button.text = text
 
 
 class DiagramPopup(FloatLayout):
