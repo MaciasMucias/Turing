@@ -65,8 +65,8 @@
         id: del_button
         size_hint: 0.72, 1/10
         pos_hint: {"x": 0.26, "top": 0.70}
-        on_release:
-            root.open_DD(self, 1)
+        on_release: root.open_DD(self, 1)
+        on_press: root.alphabet.dismiss()
 
     Label:
         pos_hint: {"x": 0.12, "y": 0.05}
@@ -83,8 +83,8 @@
         id: default_button
         size_hint: 0.72, 1/10
         pos_hint: {"x": 0.26, "top": 0.45}
-        on_release:
-            root.open_DD(self, 2)
+        on_release: root.open_DD(self, 2)
+        on_press: root.alphabet.dismiss()
 
 
 <DiagramPopup>:
