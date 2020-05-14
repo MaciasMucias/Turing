@@ -80,6 +80,7 @@ class ModifyElementsPopup(FloatLayout):
         self.new_chr.text = ""
 
         self.update_button()
+        MainGUI.main_layout.update_tape_buttons()
 
     def del_chr(self):
         self.add_error_msg.text = ""
@@ -94,11 +95,31 @@ class ModifyElementsPopup(FloatLayout):
         self.del_button.text = ""
 
         self.update_button()
+        MainGUI.main_layout.update_tape_buttons()
 
     def set_default(self):
         if self.default_button.text != "":
             pos = self.chr_list.index(self.default_button.text)
+
+            # change empty symbols at the beginning and the end of the tape
+
+            # this is bad but it works for now
+            if self.chr_list == turing.alphabet:
+                i = 0
+                while turing.tape[i] == self.chr_list[0]:
+                    turing.tape[i] = self.chr_list[pos]
+                    i += 1
+                    if i >= len(turing.tape):
+                        break
+
+                i = -1
+                while turing.tape[i] == self.chr_list[0]:
+                    turing.tape[i] = self.chr_list[pos]
+                    i -= 1
+                    if i < 0:
+                        break
             self.chr_list[0], self.chr_list[pos] = self.chr_list[pos], self.chr_list[0]
+            MainGUI.main_layout.update_tape_buttons()
 
     def open_DD(self, root, popup):
         self.popup_id = popup
@@ -195,7 +216,7 @@ class DiagramPopup(FloatLayout):
                                         self.out_symbol.text,
                                         self.out_state.text,
                                         self.possible_directions[self.direction])
-
+            MainGUI.main_layout.update_tape_buttons()
             if not result:
                 self.add_diagram_msg.text = "Instruction already in the Diagram!"
 
@@ -263,6 +284,7 @@ class DeleteDiagramPopup(FloatLayout):
         if good:
             result = turing.diagram_del(self.in_state.text,
                                         self.in_symbol.text)
+            MainGUI.main_layout.update_tape_buttons()
             self.in_symbol.text = ""
             self.in_state.text = ""
             self.in_states._buttons = turing.state_diagram.keys()
@@ -277,20 +299,42 @@ class SettingsPopoup(FloatLayout):
 
     def load(self):
         turing.load_data('saved.mach')
+        MainGUI.main_layout.update_tape_buttons()
 
 
 class TuringLayout(FloatLayout):
 
     def __init__(self, **kwargs):
         super(TuringLayout, self).__init__(**kwargs)
+
+        self.drop = ElementsDD(turing.alphabet)
+        self.dropdown_active = 0
+
         self.num_buttons = 25
         self.buttons = []
+        self.first_position_displayed = 0  # which cell from the tape is displayed on the leftmost button
         for i in range(self.num_buttons):
-            self.buttons.append(Button(text=str(i), size_hint=(1/self.num_buttons, 1/20),
+            self.buttons.append(Button(size_hint=(1/self.num_buttons, 1/20),
                                        pos_hint={"x": 1/self.num_buttons*i, "top": 0.8}))
+
             self.add_widget(self.buttons[-1])
 
-        self.popup_class = None
+        self.popup_class = self
+        self.update_tape_buttons()
+
+    def del_button_text(self, text):
+        self.buttons[self.dropdown_active].text = text
+        turing.tape[turing.new_position(self.first_position_displayed + self.dropdown_active)] = text
+
+    def open_drop(self, root, id):
+        self.dropdown_active = id
+        self.drop.open(root)
+
+    def update_tape_buttons(self):
+        if len(turing.alphabet) == 0:
+            return
+        for i, button in enumerate(self.buttons):
+            button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
 
     def change_alphabet(self):
         error_msg = ["Symbol already in Alphabet!",

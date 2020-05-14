@@ -69,19 +69,24 @@ class TuringMachine:
 
         self.check_state_diagram()
 
+    def new_position(self, pos):
+        # add empty symbols while beyond start
+        while pos < 0:
+            self.tape.insert(0, self.alphabet[0])
+            pos += 1
+
+        # add empty symbols while beyond the end
+        while pos >= len(self.tape):
+            self.tape.append(self.alphabet[0])
+
+        return pos
+
     def move_head(self, direction: chr):  # direction: L -> left, R -> right
         if direction == "L":
-            # add empty symbols if at the start
-            if self.head_position == 0:
-                self.tape.insert(0, self.alphabet[0])
-            else:
-                self.head_position -= 1
+            self.head_position = self.new_position(self.head_position - 1)
 
         elif direction == "R":
-            self.head_position += 1
-            # add empty symbols if at the end
-            if self.head_position == len(self.tape):
-                self.tape.append(self.alphabet[0])
+            self.head_position = self.new_position(self.head_position + 1)
 
     def perform_operation(self):
         state_val = self.state_list[self.current_state]
