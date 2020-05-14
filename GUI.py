@@ -280,7 +280,17 @@ class SettingsPopoup(FloatLayout):
 
 
 class TuringLayout(FloatLayout):
-    popup_class = None
+
+    def __init__(self, **kwargs):
+        super(TuringLayout, self).__init__(**kwargs)
+        self.num_buttons = 25
+        self.buttons = []
+        for i in range(self.num_buttons):
+            self.buttons.append(Button(text=str(i), size_hint=(1/self.num_buttons, 1/20),
+                                       pos_hint={"x": 1/self.num_buttons*i, "top": 0.8}))
+            self.add_widget(self.buttons[-1])
+
+        self.popup_class = None
 
     def change_alphabet(self):
         error_msg = ["Symbol already in Alphabet!",
