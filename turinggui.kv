@@ -14,6 +14,17 @@
         background_down: "settings-icon-down.png"
         on_release: root.settings()
 
+    Button:
+        size_hint: 1/15, 1/20
+        pos_hint: {"x": 0, "top": 0.85}
+        text: "Left"
+        on_press: root.move_active_cell(-1)
+
+    Button:
+        size_hint: 1/15, 1/20
+        pos_hint: {"right": 1, "top": 0.85}
+        text: "Right"
+        on_press: root.move_active_cell(1)
 
     Button:
         size_hint: 1/3, 1/5

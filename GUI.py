@@ -311,26 +311,58 @@ class TuringLayout(FloatLayout):
         self.dropdown_active = 0
 
         self.num_buttons = 25
+        self.active_button = 0
         self.buttons = []
         self.first_position_displayed = 0  # which cell from the tape is displayed on the leftmost button
         for i in range(self.num_buttons):
             self.buttons.append(Button(size_hint=(1/self.num_buttons, 1/20),
                                        pos_hint={"x": 1/self.num_buttons*i, "top": 0.8}))
+            self.buttons[-1].button_pos = i
 
+            self.buttons[-1].bind(on_press=self.dismiss_drop)
+            self.buttons[-1].bind(on_release=self.open_drop)
             self.add_widget(self.buttons[-1])
 
         self.popup_class = self
+        self.update_tape_buttons()
+        self.update_active_cell()
+
+    def update_active_cell(self):
+        for button in self.buttons:
+            button.background_color = (0.75, 0.75, 0.75, 1)
+
+        self.buttons[self.active_button].background_color = (0, 1, 0, 1)
+
+    def move_active_cell(self, pos):
+        self.active_button += pos
+        if self.active_button < 0:
+            new_pos = self.first_position_displayed+self.active_button
+            self.first_position_displayed = turing.new_position(new_pos)
+            self.active_button = 0
+        elif self.active_button >= self.num_buttons:
+            new_pos = self.first_position_displayed + self.active_button - self.num_buttons + 1
+            self.first_position_displayed = turing.new_position(new_pos)
+            self.active_button = self.num_buttons - 1
+
+        self.update_active_cell()
         self.update_tape_buttons()
 
     def del_button_text(self, text):
         self.buttons[self.dropdown_active].text = text
         turing.tape[turing.new_position(self.first_position_displayed + self.dropdown_active)] = text
 
-    def open_drop(self, root, id):
-        self.dropdown_active = id
-        self.drop.open(root)
+    def open_drop(self, instance):
+        self.dropdown_active = instance.button_pos
+        self.drop.open(instance)
+
+    def dismiss_drop(self, instance):
+        self.drop.dismiss()
+
+    def dismissed_popup(self, instance):
+        self.popup_class = self
 
     def update_tape_buttons(self):
+        self.drop._buttons = turing.alphabet
         if len(turing.alphabet) == 0:
             return
         for i, button in enumerate(self.buttons):
@@ -345,6 +377,7 @@ class TuringLayout(FloatLayout):
                                                length_check=lambda x: len(x) == 1)
         popup = Popup(title="Modify Alphabet", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
+        popup.bind(on_dismiss=self.dismissed_popup)
         popup.open()
 
     def change_state_list(self):
@@ -356,24 +389,28 @@ class TuringLayout(FloatLayout):
                                                length_check= lambda x: len(x) > 0)
         popup = Popup(title="Modify States' List", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
+        popup.bind(on_dismiss=self.dismissed_popup)
         popup.open()
 
     def change_state_diagram(self):
         self.popup_class = DiagramPopup()
         popup = Popup(title="Add Instruction", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(800, 400))
+        popup.bind(on_dismiss=self.dismissed_popup)
         popup.open()
 
     def del_state_diagram(self):
         self.popup_class = DeleteDiagramPopup()
         popup = Popup(title="Delete Instruction", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(800, 400))
+        popup.bind(on_dismiss=self.dismissed_popup)
         popup.open()
 
     def settings(self):
         self.popup_class = SettingsPopoup()
         popup = Popup(title="Settings", title_align="center", content=self.popup_class,
                       size_hint=(None, None), size=(400, 400))
+        popup.bind(on_dismiss=self.dismissed_popup)
         popup.open()
 
 
