@@ -333,6 +333,12 @@ class TuringLayout(FloatLayout):
 
         self.buttons[self.active_button].background_color = (0, 1, 0, 1)
 
+    def run_turing(self):
+        while turing.perform_operation():
+            continue
+
+        self.move_active_cell(turing.head_position - (self.first_position_displayed+self.active_button))
+
     def move_active_cell(self, pos):
         self.active_button += pos
         if self.active_button < 0:
@@ -343,7 +349,7 @@ class TuringLayout(FloatLayout):
             new_pos = self.first_position_displayed + self.active_button - self.num_buttons + 1
             self.first_position_displayed = turing.new_position(new_pos)
             self.active_button = self.num_buttons - 1
-
+        turing.head_position = self.first_position_displayed+self.active_button
         self.update_active_cell()
         self.update_tape_buttons()
 
