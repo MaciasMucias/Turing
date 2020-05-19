@@ -112,7 +112,7 @@ class ModifyElementsPopup(FloatLayout):
                     if i >= len(turing.tape):
                         break
 
-                i = -1
+                i = len(turing.tape) - 1
                 while turing.tape[i] == self.chr_list[0]:
                     turing.tape[i] = self.chr_list[pos]
                     i -= 1
@@ -303,6 +303,11 @@ class SettingsPopoup(FloatLayout):
 
 
 class TuringLayout(FloatLayout):
+    symbol_in = ObjectProperty(None)
+    state_in = ObjectProperty(None)
+    symbol_out = ObjectProperty(None)
+    state_out = ObjectProperty(None)
+    direction_out = ObjectProperty(None)
 
     def __init__(self, **kwargs):
         super(TuringLayout, self).__init__(**kwargs)
@@ -339,6 +344,14 @@ class TuringLayout(FloatLayout):
 
         self.move_active_cell(turing.head_position - (self.first_position_displayed+self.active_button))
 
+    def reset_turing(self):
+        turing.current_state = 0
+        self.show_info()
+
+    def turing_step(self):
+        turing.perform_operation()
+        self.move_active_cell(turing.head_position - (self.first_position_displayed + self.active_button))
+
     def move_active_cell(self, pos):
         self.active_button += pos
         if self.active_button < 0:
@@ -353,9 +366,33 @@ class TuringLayout(FloatLayout):
         self.update_active_cell()
         self.update_tape_buttons()
 
+    def show_info(self):
+        symbol = turing.tape[turing.head_position]
+        state = turing.state_list[turing.current_state]
+        self.symbol_in.text = symbol
+        self.state_in.text = state
+
+        if state not in turing.state_diagram:
+            self.symbol_out.text = "None"
+            self.state_out.text = "None"
+            self.direction_out.text = "None"
+            return
+
+        if symbol not in turing.state_diagram[state]:
+            self.symbol_out.text = "None"
+            self.state_out.text = "None"
+            self.direction_out.text = "None"
+            return
+
+        instruction = turing.state_diagram[state][symbol]
+        self.symbol_out.text = instruction[0]
+        self.state_out.text = instruction[1]
+        self.direction_out.text = instruction[2]
+
     def del_button_text(self, text):
         self.buttons[self.dropdown_active].text = text
         turing.tape[turing.new_position(self.first_position_displayed + self.dropdown_active)] = text
+        self.show_info()
 
     def open_drop(self, instance):
         self.dropdown_active = instance.button_pos
@@ -373,6 +410,8 @@ class TuringLayout(FloatLayout):
             return
         for i, button in enumerate(self.buttons):
             button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
+
+        self.show_info()
 
     def change_alphabet(self):
         error_msg = ["Symbol already in Alphabet!",
