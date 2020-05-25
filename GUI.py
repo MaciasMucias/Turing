@@ -367,10 +367,16 @@ class TuringLayout(FloatLayout):
         self.update_tape_buttons()
 
     def show_info(self):
-        symbol = turing.tape[turing.head_position]
-        state = turing.state_list[turing.current_state]
-        self.symbol_in.text = symbol
-        self.state_in.text = state
+        symbol = state = None
+
+        if turing.tape:
+            symbol = turing.tape[turing.head_position]
+
+        if turing.current_state is not None and turing.state_list:
+            state = turing.state_list[turing.current_state]
+
+        self.symbol_in.text = symbol if symbol is not None else 'None'
+        self.state_in.text = state if state is not None else 'None'
 
         if state not in turing.state_diagram:
             self.symbol_out.text = "None"

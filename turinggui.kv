@@ -14,7 +14,7 @@
     Button:
         pos_hint: {"left": 0, "top": 1}
         size_hint: None, None
-        size: pt(64), pt(64)
+        size: "48pt", "48pt"
         background_normal: "settings-icon.png"
         background_down: "settings-icon-down.png"
         on_release: root.settings()
@@ -31,7 +31,7 @@
         id: symbol_in
         size_hint: 1/10, 1/20
         pos_hint: {"x": 0, "y": 0.57}
-        text: "S"
+        text: "None"
 
     Label:
         pos_hint: {"x": -0.1, "y": 0.15}
@@ -41,7 +41,7 @@
         id: state_in
         size_hint: 1/5, 1/20
         pos_hint: {"x": 0.3, "y": 0.57}
-        text: "S"
+        text: "None"
 
     Label:
         pos_hint: {"x": 0.25, "y": 0.20}
@@ -55,7 +55,7 @@
         id: symbol_out
         size_hint: 1/10, 1/20
         pos_hint: {"x": 0.5, "y": 0.57}
-        text: "S"
+        text: "None"
 
     Label:
         pos_hint: {"x": 0.25, "y": 0.15}
@@ -65,7 +65,7 @@
         id: state_out
         size_hint: 1/5, 1/20
         pos_hint: {"x": 0.65, "y": 0.57}
-        text: "S"
+        text: "None"
 
     Label:
         pos_hint: {"x": 0.45, "y": 0.15}
@@ -75,7 +75,7 @@
         id: direction_out
         size_hint: 1/10, 1/20
         pos_hint: {"x": 0.9, "y": 0.57}
-        text: "S"
+        text: "None"
 
     Button:
         size_hint: 1/15, 1/20

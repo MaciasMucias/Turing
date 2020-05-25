@@ -6,7 +6,7 @@ class TuringMachine:
 
         self.state_diagram = state_diagram
         self.head_position = 0
-        self.current_state = 0
+        self.current_state = None
 
         self.check_input_data()
 
@@ -71,13 +71,14 @@ class TuringMachine:
 
     def new_position(self, pos):
         # add empty symbols while beyond start
-        while pos < 0:
-            self.tape.insert(0, self.alphabet[0])
-            pos += 1
+        if self.alphabet:
+            while pos < 0:
+                self.tape.insert(0, self.alphabet[0])
+                pos += 1
 
-        # add empty symbols while beyond the end
-        while pos >= len(self.tape):
-            self.tape.append(self.alphabet[0])
+            # add empty symbols while beyond the end
+            while pos >= len(self.tape):
+                self.tape.append(self.alphabet[0])
 
         return pos
 
@@ -89,8 +90,11 @@ class TuringMachine:
             self.head_position = self.new_position(self.head_position + 1)
 
     def perform_operation(self):
-        state_val = self.state_list[self.current_state]
-        symbol_val = self.tape[self.head_position]
+        state_val = symbol_val = None
+        if self.current_state is not None and self.state_list:
+            state_val = self.state_list[self.current_state]
+        if self.tape:
+            symbol_val = self.tape[self.head_position]
 
         if state_val not in self.state_diagram:
             return False  # end of program
