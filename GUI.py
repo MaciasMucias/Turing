@@ -5,8 +5,6 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.label import Label
-from kivy.uix.widget import Widget
-from kivy.uix.spinner import Spinner
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
 from kivy.factory import Factory
@@ -472,10 +470,13 @@ class TuringGUI(App):
         self.main_layout = TuringLayout()
         return self.main_layout
 
+    def on_start(self):
+        self.stop()
+
 
 MainGUI = TuringGUI()
-
 MainGUI.run()
+
 
 
 
