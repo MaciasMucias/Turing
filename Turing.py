@@ -165,7 +165,11 @@ class TuringMachine:
         with open(name, 'w+') as f:
             f.write(str(self.alphabet) + '\n')
             f.write(str(self.state_list) + '\n')
-            f.write(str(self.state_diagram))
+            f.write(str(self.state_diagram) + '\n')
+            f.write(str(self.current_state) + '\n')
+            f.write(str(self.head_position) + '\n')
+            f.write(str(self.tape))
+
 
     def load_data(self, name):
         # brzydkie i nie poprawne
@@ -174,4 +178,7 @@ class TuringMachine:
         with open(name, 'r') as f:
             self.alphabet = eval(f.readline()[:-1])
             self.state_list = eval(f.readline()[:-1])
-            self.state_diagram = eval(f.readline())
+            self.state_diagram = eval(f.readline()[:-1])
+            self.current_state = eval(f.readline()[:-1])
+            self.head_position = eval(f.readline()[:-1])
+            self.tape = eval(f.readline())

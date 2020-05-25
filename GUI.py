@@ -410,10 +410,13 @@ class TuringLayout(FloatLayout):
 
     def update_tape_buttons(self):
         self.drop._buttons = turing.alphabet
-        if len(turing.alphabet) == 0:
-            return
-        for i, button in enumerate(self.buttons):
-            button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
+        if turing.alphabet:
+            for i, button in enumerate(self.buttons):
+                button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
+        else:
+            turing.tape = []
+            for i, button in enumerate(self.buttons):
+                button.text = ''
 
         self.show_info()
 
@@ -469,9 +472,6 @@ class TuringGUI(App):
     def build(self):
         self.main_layout = TuringLayout()
         return self.main_layout
-
-    def on_start(self):
-        self.stop()
 
 
 MainGUI = TuringGUI()
