@@ -87,6 +87,18 @@ class ModifyElementsPopup(FloatLayout):
         self.del_error_msg.text = ""
 
         if len(self.del_button.text) > 0:
+            if self.chr_list == turing.alphabet:
+                default = self.chr_list[0]
+                if default == self.del_button.text:
+                    if len(self.chr_list) == 1:
+                        default = None
+                    else:
+                        default = self.chr_list[1]
+
+                for i in range(len(turing.tape)):
+                    if turing.tape[i] == self.del_button.text:
+                        turing.tape[i] = default
+
             self.remove_function(self.del_button.text)
             self.alphabet.update()
         else:
@@ -97,6 +109,21 @@ class ModifyElementsPopup(FloatLayout):
         self.update_button()
         MainGUI.main_layout.update_tape_buttons()
 
+    def update_default(self, pos):
+        i = 0
+        while turing.tape[i] == self.chr_list[0]:
+            turing.tape[i] = self.chr_list[pos]
+            i += 1
+            if i >= len(turing.tape):
+                break
+
+        i = len(turing.tape) - 1
+        while turing.tape[i] == self.chr_list[0]:
+            turing.tape[i] = self.chr_list[pos]
+            i -= 1
+            if i < 0:
+                break
+
     def set_default(self):
         if self.default_button.text != "":
             pos = self.chr_list.index(self.default_button.text)
@@ -105,19 +132,7 @@ class ModifyElementsPopup(FloatLayout):
 
             # this is bad but it works for now
             if self.chr_list == turing.alphabet:
-                i = 0
-                while turing.tape[i] == self.chr_list[0]:
-                    turing.tape[i] = self.chr_list[pos]
-                    i += 1
-                    if i >= len(turing.tape):
-                        break
-
-                i = len(turing.tape) - 1
-                while turing.tape[i] == self.chr_list[0]:
-                    turing.tape[i] = self.chr_list[pos]
-                    i -= 1
-                    if i < 0:
-                        break
+                self.update_default(pos)
             self.chr_list[0], self.chr_list[pos] = self.chr_list[pos], self.chr_list[0]
             MainGUI.main_layout.update_tape_buttons()
 
