@@ -98,6 +98,8 @@ class ModifyElementsPopup(FloatLayout):
                 for i in range(len(turing.tape)):
                     if turing.tape[i] == self.del_button.text:
                         turing.tape[i] = default
+                if default is None:
+                    turing.tape = []
 
             self.remove_function(self.del_button.text)
             self.alphabet.update()
@@ -368,6 +370,8 @@ class TuringLayout(FloatLayout):
         self.move_active_cell(turing.head_position - (self.first_position_displayed + self.active_button))
 
     def move_active_cell(self, pos):
+        if not turing.tape:
+            return
         self.active_button += pos
         if self.active_button < 0:
             new_pos = self.first_position_displayed+self.active_button
@@ -428,6 +432,8 @@ class TuringLayout(FloatLayout):
     def update_tape_buttons(self):
         self.drop._buttons = turing.alphabet
         if len(turing.alphabet) == 0:
+            for button in self.buttons:
+                button.text = ""
             return
         for i, button in enumerate(self.buttons):
             button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
