@@ -1,3 +1,6 @@
-['5']
-[]
-{}
+['#', 'X', 'O', 'I']
+['Start', 'End', 'CheckHorizontal', 'X1', 'X2', 'X3', 'XWon', 'O1', 'O2', 'O3', 'OWon']
+{'Start': {'#': ['#', 'CheckHorizontal', 'R']}, 'CheckHorizontal': {'I': ['I', 'CheckHorizontal', 'R'], 'X': ['X', 'X2', 'R'], 'O': ['O', 'O2', 'R']}, 'X1': {'X': ['X', 'X2', 'R'], 'O': ['O', 'O1', 'R'], 'I': ['I', 'CheckHorizontal', 'R']}, 'X2': {'O': ['O', 'O1', 'R'], 'I': ['I', 'CheckHorizontal', 'R'], 'X': ['X', 'X3', 'R']}, 'O1': {'O': ['O', 'O2', 'R'], 'X': ['X', 'X1', 'R'], 'I': ['I', 'CheckHorizontal', 'R']}, 'O2': {'X': ['X', 'X1', 'R'], 'I': ['I', 'CheckHorizontal', 'R'], 'O': ['O', 'O3', 'R']}, 'X3': {'X': ['X', 'XWon', 'R'], 'O': ['O', 'O1', 'R']}, 'O3': {'O': ['O', 'OWon', 'R'], 'X': ['X', 'X1', 'R']}}
+0
+0
+['#', 'X', 'X', 'O', 'X', 'I', 'O', 'O', 'O', 'O', 'I', 'X', 'X', 'X', 'X', 'I', 'O', 'O', 'O', 'O', '#', '#', '#', '#', '#']
