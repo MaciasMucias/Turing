@@ -5,6 +5,8 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.widget import Widget
+from kivy.uix.spinner import Spinner
 from kivy.core.window import Window
 from kivy.properties import ObjectProperty, ListProperty, StringProperty
 from kivy.factory import Factory
@@ -85,6 +87,20 @@ class ModifyElementsPopup(FloatLayout):
         self.del_error_msg.text = ""
 
         if len(self.del_button.text) > 0:
+            if self.chr_list == turing.alphabet:
+                default = self.chr_list[0]
+                if default == self.del_button.text:
+                    if len(self.chr_list) == 1:
+                        default = None
+                    else:
+                        default = self.chr_list[1]
+
+                for i in range(len(turing.tape)):
+                    if turing.tape[i] == self.del_button.text:
+                        turing.tape[i] = default
+                if default is None:
+                    turing.tape = []
+
             self.remove_function(self.del_button.text)
             self.alphabet.update()
         else:
@@ -95,6 +111,21 @@ class ModifyElementsPopup(FloatLayout):
         self.update_button()
         MainGUI.main_layout.update_tape_buttons()
 
+    def update_default(self, pos):
+        i = 0
+        while turing.tape[i] == self.chr_list[0]:
+            turing.tape[i] = self.chr_list[pos]
+            i += 1
+            if i >= len(turing.tape):
+                break
+
+        i = len(turing.tape) - 1
+        while turing.tape[i] == self.chr_list[0]:
+            turing.tape[i] = self.chr_list[pos]
+            i -= 1
+            if i < 0:
+                break
+
     def set_default(self):
         if self.default_button.text != "":
             pos = self.chr_list.index(self.default_button.text)
@@ -103,19 +134,7 @@ class ModifyElementsPopup(FloatLayout):
 
             # this is bad but it works for now
             if self.chr_list == turing.alphabet:
-                i = 0
-                while turing.tape[i] == self.chr_list[0]:
-                    turing.tape[i] = self.chr_list[pos]
-                    i += 1
-                    if i >= len(turing.tape):
-                        break
-
-                i = len(turing.tape) - 1
-                while turing.tape[i] == self.chr_list[0]:
-                    turing.tape[i] = self.chr_list[pos]
-                    i -= 1
-                    if i < 0:
-                        break
+                self.update_default(pos)
             self.chr_list[0], self.chr_list[pos] = self.chr_list[pos], self.chr_list[0]
             MainGUI.main_layout.update_tape_buttons()
 
@@ -282,11 +301,11 @@ class DeleteDiagramPopup(FloatLayout):
         if good:
             result = turing.diagram_del(self.in_state.text,
                                         self.in_symbol.text)
-            MainGUI.main_layout.update_tape_buttons()
             self.in_symbol.text = ""
             self.in_state.text = ""
             self.in_states._buttons = turing.state_diagram.keys()
             self.in_symbols._buttons = []
+            MainGUI.main_layout.update_tape_buttons()
             if not result:
                 self.del_diagram_msg.text = "Instruction not in the Diagram!"
 
@@ -298,6 +317,7 @@ class SettingsPopoup(FloatLayout):
     def load(self):
         turing.load_data('saved.mach')
         MainGUI.main_layout.update_tape_buttons()
+        MainGUI.main_layout.reset_turing()
 
 
 class TuringLayout(FloatLayout):
@@ -351,6 +371,8 @@ class TuringLayout(FloatLayout):
         self.move_active_cell(turing.head_position - (self.first_position_displayed + self.active_button))
 
     def move_active_cell(self, pos):
+        if not turing.tape:
+            return
         self.active_button += pos
         if self.active_button < 0:
             new_pos = self.first_position_displayed+self.active_button
@@ -410,13 +432,12 @@ class TuringLayout(FloatLayout):
 
     def update_tape_buttons(self):
         self.drop._buttons = turing.alphabet
-        if turing.alphabet:
-            for i, button in enumerate(self.buttons):
-                button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
-        else:
-            turing.tape = []
-            for i, button in enumerate(self.buttons):
-                button.text = ''
+        if len(turing.alphabet) == 0:
+            for button in self.buttons:
+                button.text = ""
+            return
+        for i, button in enumerate(self.buttons):
+            button.text = turing.tape[turing.new_position(i + self.first_position_displayed)]
 
         self.show_info()
 
@@ -475,8 +496,8 @@ class TuringGUI(App):
 
 
 MainGUI = TuringGUI()
-MainGUI.run()
 
+MainGUI.run()
 
 
 
