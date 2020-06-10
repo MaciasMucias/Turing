@@ -301,11 +301,11 @@ class DeleteDiagramPopup(FloatLayout):
         if good:
             result = turing.diagram_del(self.in_state.text,
                                         self.in_symbol.text)
-            MainGUI.main_layout.update_tape_buttons()
             self.in_symbol.text = ""
             self.in_state.text = ""
             self.in_states._buttons = turing.state_diagram.keys()
             self.in_symbols._buttons = []
+            MainGUI.main_layout.update_tape_buttons()
             if not result:
                 self.del_diagram_msg.text = "Instruction not in the Diagram!"
 
@@ -317,6 +317,7 @@ class SettingsPopoup(FloatLayout):
     def load(self):
         turing.load_data('saved.mach')
         MainGUI.main_layout.update_tape_buttons()
+        MainGUI.main_layout.reset_turing()
 
 
 class TuringLayout(FloatLayout):
