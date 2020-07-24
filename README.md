@@ -1,6 +1,9 @@
 # Turing Machine Simulator
 Simulates how the Turing Machine works.
 
+# Running the app
+Run GUI.py file.
+
 ## Class Turing(alphabet, tape, state_list, state_diagram)
 
   **Variables**
